@@ -14,64 +14,9 @@ model SomeData {
   number   Int     @db.SmallInt
 }
 
-model Member {
-  id String @id
-  name String 
-  }
-
 model User {
-  id String @id @default(uuid())
+  id String @id @default(dbgenerated())
   name String
-  email String
+  mail String
   accountStatusId String
 }
-
-model AccountStatus {
-  id String @id
-  status String
-}
-
-model Task {
-  id String @id
-  title String
-  instraction String
-}
-
-model TaskStatus {
-  taskId String
-  userId String
-  statusId String
-
-  @@id([taskId, userId, statusId])
-}
-
-model Team {
-  teamId String @id
-  name String
-}
-
-model UserTeamRelation {
-  teamId String
-  userId String
-
-  @@id([teamId, userId])
-}
-
-model Pair {
-  pairId String @id
-  name String
-}
-
-model UserPairRelation {
-  pairId String
-  userId String
-
-  @@id([pairId, userId])
-}
-
-prisma.user.create({
-  data: {
-    name: "John Doe",
-    email: "john.doe@example.com"
-  }
-})

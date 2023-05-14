@@ -13,6 +13,7 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "incremental": true,
-    "paths": {"@testUtil/*": ["testUtil/*"]}
+    "paths": {"@testUtil/*": ["testUtil/*"]},
+    "esModuleInterop" : true, // ESモジュールとCommonJSモジュールの相互運用を有効にする
   }
 }

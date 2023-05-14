@@ -1,44 +1,31 @@
+import 'ts-node/register';
 import { PrismaClient } from '@prisma/client'
+
+// npx ts-node seed.ts で実行する
+// node seed.ts だとimportで失敗する SyntaxError: Cannot use import statement outside a module
+// tsco
 
 const prisma = new PrismaClient()
 
-const posts:any = []
-
-for(let i = 0; i < 100; i++) {
-    posts.push({ title: `title ${i + 1}`})
-}
-
 async function main() {
-    const alice = await prisma.user.create({
-        data: {
-            name: 'Alice',
-            email: 'alice@example.com',
-            posts: {
-                create: posts
-            }
-        }
-    })
 
-    const bob = await prisma.user.create({
-        data: {
-            name: 'Bob',
-            email: 'bob@example.com',
-            posts: {
-                create: {
-                    title: 'Check out Prisma with Next.js',
-                }
-            }
-        }
-    })
+  try {
 
-    console.log({alice, bob})
+    await prisma.user.deleteMany();
+
+    await prisma.user.createMany({
+      data: [
+        {id: '1', name: '田中 太郎', mail: 'taro@example.com', accountStatusId: 'test' },
+        {id: '2', name: '鈴木 花子', mail: 'hanahana@example.com', accountStatusId: 'test' },
+      ],
+    });
+    console.log('Initial data seeded successfully!');
+  } catch (error) {
+    console.error('Error seeding initial data:', error);
+  } finally {
+    await prisma.$disconnect();
+  }
+
 }
 
-main()
-    .catch(e => {
-        console.error(e)
-        process.exit(1)
-    })
-    .finally(async () => {
-        await prisma.$disconnect()
-    })
+main();
